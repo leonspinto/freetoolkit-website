@@ -2,6 +2,16 @@
  * Global Footer Component Injection
  */
 document.addEventListener('DOMContentLoaded', () => {
+    let basePath = './';
+    const scripts = document.getElementsByTagName('script');
+    for (let script of scripts) {
+        const src = script.getAttribute('src');
+        if (src && src.includes('footer.js')) {
+            basePath = src.replace('js/components/footer.js', '');
+            break;
+        }
+    }
+
     const currentYear = new Date().getFullYear();
     
     const footerHTML = `
@@ -18,20 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="footer-col">
                         <h4>Tool Categories</h4>
                         <ul>
-                            <li><a href="/pdf-tools.html">PDF Tools</a></li>
-                            <li><a href="/image-tools.html">Image Tools</a></li>
-                            <li><a href="/design-tools.html">Design Tools</a></li>
-                            <li><a href="/utility-tools.html">Utility Tools</a></li>
+                            <li><a href="${basePath}pdf-tools.html">PDF Tools</a></li>
+                            <li><a href="${basePath}image-tools.html">Image Tools</a></li>
+                            <li><a href="${basePath}design-tools.html">Design Tools</a></li>
+                            <li><a href="${basePath}utility-tools.html">Utility Tools</a></li>
                         </ul>
                     </div>
                     
                     <div class="footer-col">
                         <h4>Company & Legal</h4>
                         <ul>
-                            <li><a href="/pages/about.html">About Us</a></li>
-                            <li><a href="/pages/contact.html">Contact</a></li>
-                            <li><a href="/pages/privacy-policy.html">Privacy Policy</a></li>
-                            <li><a href="/pages/terms.html">Terms of Service</a></li>
+                            <li><a href="${basePath}pages/about.html">About Us</a></li>
+                            <li><a href="${basePath}pages/contact.html">Contact</a></li>
+                            <li><a href="${basePath}pages/privacy-policy.html">Privacy Policy</a></li>
+                            <li><a href="${basePath}pages/terms.html">Terms of Service</a></li>
                         </ul>
                     </div>
                 </div>

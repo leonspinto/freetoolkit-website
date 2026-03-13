@@ -2,10 +2,20 @@
  * Global Navbar Component Injection
  */
 document.addEventListener('DOMContentLoaded', () => {
+    let basePath = './';
+    const scripts = document.getElementsByTagName('script');
+    for (let script of scripts) {
+        const src = script.getAttribute('src');
+        if (src && src.includes('navbar.js')) {
+            basePath = src.replace('js/components/navbar.js', '');
+            break;
+        }
+    }
+
     const navbarHTML = `
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="container nav-container">
-                <a href="/" class="nav-logo">
+                <a href="${basePath}" class="nav-logo">
                     FreeToolKit
                 </a>
                 
@@ -14,10 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </button>
 
                 <div id="nav-links" class="nav-links">
-                    <a href="/pdf-tools.html">PDF Tools</a>
-                    <a href="/image-tools.html">Image Tools</a>
-                    <a href="/design-tools.html">Design Tools</a>
-                    <a href="/utility-tools.html">Utility Tools</a>
+                    <a href="${basePath}pdf-tools.html">PDF Tools</a>
+                    <a href="${basePath}image-tools.html">Image Tools</a>
+                    <a href="${basePath}design-tools.html">Design Tools</a>
+                    <a href="${basePath}utility-tools.html">Utility Tools</a>
                 </div>
             </div>
         </nav>
