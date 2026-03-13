@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster Maker Online Free | FreeToolKit</title>
+    <meta name="description" content="Create stunning posters online for free directly in your browser. Add text over images and generate print-ready vertical graphics without uploading data.">
+    
+    <meta property="og:title" content="Poster Maker Online Free | FreeToolKit">
+    <meta property="og:description" content="Create stunning vertical posters online for free directly in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freetoolkit.com/tools/poster-maker.html">
+    <link rel="canonical" href="https://freetoolkit.com/tools/poster-maker.html">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .poster-workspace {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            background: rgba(79, 70, 229, 0.03);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+        @media (max-width: 768px) {
+            .poster-workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+        .editor-controls {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .canvas-container {
+            width: 100%;
+            background: #e2e8f0;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        canvas {
+            max-width: 100%;
+            max-height: 800px;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .control-group {
+            margin-bottom: 1.2rem;
+        }
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .control-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+    </style>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://freetoolkit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Design Tools",
+          "item": "https://freetoolkit.com/design-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Poster Maker",
+          "item": "https://freetoolkit.com/tools/poster-maker.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container mt-8">
+        <div class="text-center mb-8">
+            <h1 class="mb-4">Poster Maker</h1>
+            <p class="hero-subtitle">Design beautiful vertical posters and flyers instantly.</p>
+        </div>
+
+        <div class="poster-workspace">
+            
+            <aside class="editor-controls">
+                <h3 class="mb-4">Poster Assets</h3>
+                
+                <div class="control-group">
+                    <label>Background Color / Image</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="color" id="bgColor" value="#4f46e5" class="control-input" style="padding: 0; width: 50px; height: 40px;">
+                        <input type="file" id="bgImageInput" accept="image/*" style="display: none;">
+                        <button class="btn" style="flex:1;" onclick="document.getElementById('bgImageInput').click()">Upload BG</button>
+                    </div>
+                </div>
+
+                <div class="control-group border-top pt-4">
+                    <label>Heading Text</label>
+                    <input type="text" id="mainText" class="control-input mb-2" value="GRAND OPENING">
+                    <div style="display:flex; gap:0.5rem;">
+                        <input type="color" id="mainTextColor" value="#ffffff" class="control-input" style="padding: 0; width: 40px; height: 40px;">
+                        <input type="number" id="mainTextSize" class="control-input" value="120" placeholder="Size" style="width: 80px;">
+                        <select id="mainTextFont" class="control-input">
+                            <option value="Impact">Impact</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Courier New">Courier</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group border-top pt-4">
+                    <label>Subheading text</label>
+                    <input type="text" id="subText" class="control-input mb-2" value="Join us this Saturday for exclusive deals and giveaways!">
+                    <div style="display:flex; gap:0.5rem;">
+                        <input type="color" id="subTextColor" value="#ffffff" class="control-input" style="padding: 0; width: 40px; height: 40px;">
+                        <input type="number" id="subTextSize" class="control-input" value="40" placeholder="Size" style="width: 80px;">
+                    </div>
+                </div>
+
+                <div class="control-group border-top pt-4 text-center">
+                    <button id="downloadBtn" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 0.8rem;">Export High-Res PNG</button>
+                    <button class="btn mt-2" id="resetBtn" style="width: 100%; background: transparent; border: 1px solid var(--border-color);">Reset Defaults</button>
+                </div>
+            </aside>
+
+            <div class="canvas-container">
+                <canvas id="posterCanvas"></canvas>
+            </div>
+            
+        </div>
+
+        <!-- SEO Article Content -->
+        <article class="mt-8 mb-8" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8;">
+            <h2 class="mb-4" style="color:var(--text-primary)">Build HD Print-ready Posters Instantly</h2>
+            <p class="mb-4">Using heavy desktop editors like Photoshop is overwhelming if you just need to whip up an elegant marketing flyer or local brand poster. With the FreeToolKit Poster Maker, you can render complex typographical overlays without technical expertise.</p>
+            <p class="mb-4">Our engine natively initializes a high resolution vertical <strong>A4 Ratio Canvas (1200x1700px)</strong> ensuring your export is crisp, pixel-perfect, and perfectly aligned for 300DPI physical printing if needed.</p>
+            <p>Because the image synthesis occurs wholly inside your web browser (via local GPU acceleration), there is absolutely no limit to how many graphics you can generate per day.</p>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                <h2 class="mb-4" style="color:var(--text-primary)">Related Design Tools</h2>
+                <ul style="margin-left: 1.5rem;" class="mb-6">
+                    <li class="mb-2"><a href="/tools/thumbnail-maker.html">Thumbnail Maker</a> - Create custom YouTube thumbnails inside your browser.</li>
+                    <li class="mb-2"><a href="/tools/meme-generator.html">Meme Generator</a> - Generate popular text impact memes instantly.</li>
+                </ul>
+            </section>
+        </article>
+
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="/js/components/navbar.js"></script>
+    <script src="/js/components/footer.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/design-tools.js"></script>
+</body>
+</html>

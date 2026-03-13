@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Image Online Free | FreeToolKit</title>
+    <meta name="description" content="Crop images online for free. Drag, scale, and trim your photographs securely in your browser without uploading any files to external servers.">
+    
+    <meta property="og:title" content="Crop Image Online Free | FreeToolKit">
+    <meta property="og:description" content="Drag, scale, and trim your photographs securely in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freetoolkit.com/tools/crop-image.html">
+    <link rel="canonical" href="https://freetoolkit.com/tools/crop-image.html">
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Cropper.js for Visual Bounding Box -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+
+    <style>
+        .crop-workspace {
+            background: rgba(79, 70, 229, 0.03);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+        .canvas-container {
+            display: none;
+            width: 100%;
+            height: 500px;
+            background: var(--bg-color);
+            margin-bottom: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+        }
+        .canvas-container img {
+            max-width: 100%;
+            display: block;
+        }
+        .toolbar {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .aspect-ratio-btn {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .aspect-ratio-btn.active {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://freetoolkit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Tools",
+          "item": "https://freetoolkit.com/image-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Crop Image",
+          "item": "https://freetoolkit.com/tools/crop-image.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container mt-8">
+        <div class="text-center mb-8">
+            <h1 class="mb-4">Crop Image</h1>
+            <p class="hero-subtitle">Visually trim, frame, and export perfectly cropped pictures.</p>
+        </div>
+
+        <div class="crop-workspace">
+            
+            <div id="dropZone" class="drop-zone mb-6">
+                <div class="tool-icon" style="font-size: 3rem; margin-bottom: 1rem;">✂️</div>
+                <h3 class="mb-2">Choose an Image</h3>
+                <p>or drag and drop it here</p>
+                <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp" style="display: none;">
+                <button class="btn btn-primary mt-4" onclick="document.getElementById('fileInput').click()">Select Image</button>
+            </div>
+
+            <div class="loader-container" id="global-loader">
+                <div class="spinner"></div>
+                <p id="loader-text" style="color:var(--text-secondary)">Loading Cropping Engine...</p>
+            </div>
+
+            <div id="editorWorkspace" style="display:none;">
+                <div class="toolbar" id="toolbar">
+                    <button class="aspect-ratio-btn active" data-ratio="NaN">Freeform</button>
+                    <button class="aspect-ratio-btn" data-ratio="1">1:1 Square</button>
+                    <button class="aspect-ratio-btn" data-ratio="1.7777777777777777">16:9 Landscape</button>
+                    <button class="aspect-ratio-btn" data-ratio="1.3333333333333333">4:3 Desktop</button>
+                    <button class="aspect-ratio-btn" data-ratio="0.5625">9:16 Story</button>
+                </div>
+
+                <div class="canvas-container" id="canvasContainer">
+                    <img id="imageTarget" src="" alt="Cropper Target">
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button id="performCropBtn" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem; background-color: var(--success-color);">Apply Crop & Download</button>
+                    <button class="btn mt-4" onclick="location.reload()" style="display:block; margin: 1rem auto; background: transparent; border: 1px solid var(--border-color)">Cancel / Choose Another</button>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- SEO Article Content -->
+        <article class="mt-8 mb-8" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8;">
+            <h2 class="mb-4" style="color:var(--text-primary)">How to precisely crop your images</h2>
+            <p class="mb-4">Cropping an image is fundamental when you want to highlight a specific subject, strip out messy backgrounds, or standardize formatting before uploading to social networks. Our local FreeToolKit engine enables seamless pixel-perfect aspect ratio locking.</p>
+            <p class="mb-4">Whether you are generating a 1:1 perfect square avatar box or formatting a beautiful 16:9 presentation slide, select the "AspectRatio" shortcut buttons above the editor to instantly snap your bounding box grids mathematically to ratio.</p>
+            <p>Once you click the download button, the exact target area is captured utilizing Canvas clipping APIs rendering a highly compressed, beautifully trimmed file directly onto your hard drive within milliseconds.</p>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                <h2 class="mb-4" style="color:var(--text-primary)">Related Image Tools</h2>
+                <ul style="margin-left: 1.5rem;" class="mb-6">
+                    <li class="mb-2"><a href="/tools/image-compressor.html">Image Compressor</a> - Reduce image file size without losing quality.</li>
+                    <li class="mb-2"><a href="/tools/image-resizer.html">Image Resizer</a> - Change image dimensions with custom width and height.</li>
+                    <li class="mb-2"><a href="/tools/png-to-jpg.html">PNG to JPG Converter</a> - Quickly convert transparent PNGs to flat JPGs.</li>
+                </ul>
+            </section>
+        </article>
+
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="/js/components/navbar.js"></script>
+    <script src="/js/components/footer.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/image-tools.js"></script>
+</body>
+</html>

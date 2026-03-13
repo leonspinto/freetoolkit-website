@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reorder PDF Pages Online Free | Sort PDF | FreeToolKit</title>
+    <meta name="description" content="Reorder PDF pages online for free. Drag and drop to sort, arrange, and organize your PDF document pages easily inside your browser.">
+    
+    <meta property="og:title" content="Reorder PDF Pages Online Free | Sort PDF">
+    <meta property="og:description" content="Drag and drop to sort, arrange, and organize your PDF document pages easily.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freetoolkit.com/tools/reorder-pdf.html">
+    <link rel="canonical" href="https://freetoolkit.com/tools/reorder-pdf.html">
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- CDNs for PDF processing and Drag/Drop -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+    <style>
+        .reorder-workspace {
+            background: rgba(79, 70, 229, 0.03);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        .page-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 0.5rem;
+            text-align: center;
+            cursor: grab;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        .page-item:active {
+            cursor: grabbing;
+        }
+        .page-preview {
+            width: 100%;
+            height: 140px;
+            object-fit: contain;
+            background: white;
+            margin-bottom: 0.5rem;
+            border-radius: 4px; border: 1px solid var(--border-color);
+            pointer-events: none;
+        }
+        .page-number-label {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            pointer-events: none;
+        }
+        .delete-page-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(220, 38, 38, 0.9);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 10;
+        }
+        .delete-page-btn:hover {
+            background: rgba(220, 38, 38, 1);
+        }
+    </style>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://freetoolkit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "PDF Tools",
+          "item": "https://freetoolkit.com/pdf-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Reorder PDF",
+          "item": "https://freetoolkit.com/tools/reorder-pdf.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container mt-8">
+        <div class="breadcrumb mb-6">
+            <a href="/">Home</a> <span>></span> <a href="/pdf-tools.html">PDF Tools</a> <span>></span> <span>Reorder PDF</span>
+        </div>
+
+        <div class="text-center mb-8">
+            <h1 class="mb-4">Reorder PDF Pages</h1>
+            <p class="hero-subtitle">Visually drag and drop PDF pages to arrange them in any order you want.</p>
+        </div>
+
+        <div class="reorder-workspace">
+            <div id="dropZone" class="drop-zone mb-6">
+                <div class="tool-icon" style="font-size: 3rem; margin-bottom: 1rem;">🔄</div>
+                <h3 class="mb-2">Choose a PDF file</h3>
+                <p>or drag and drop it here</p>
+                <input type="file" id="fileInput" accept="application/pdf" style="display: none;">
+                <button class="btn btn-primary mt-4" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+            </div>
+
+            <div class="loader-container" id="global-loader">
+                <div class="spinner"></div>
+                <p id="loader-text" style="color:var(--text-secondary)">Scanning Pages...</p>
+            </div>
+
+            <div id="editorWorkspace" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
+                    <h3 id="pdfTitle">Document Preview (Drag to Reorder)</h3>
+                </div>
+
+                <div id="pageGrid" class="page-grid mb-6">
+                    <!-- Javascript will render canvas previews here -->
+                </div>
+                
+                <div class="text-center mt-6">
+                    <p class="mb-4" style="color:var(--text-secondary)">Drag and drop the thumbnails to change their order, or click the X to remove pages.</p>
+                    <button id="reorderBtn" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Save New Order</button>
+                </div>
+            </div>
+            
+            <div class="text-center mt-6" id="downloadContainer" style="display: none;">
+                <a id="downloadLink" class="btn btn-primary" style="background-color: var(--success-color);">Download Reordered PDF</a>
+                <button class="btn mt-4" onclick="location.reload()" style="display:block; margin: 1rem auto; background: transparent; border: 1px solid var(--border-color)">Reorder Another File</button>
+            </div>
+        </div>
+
+        <!-- SEO Article Content -->
+        <article class="mt-8 mb-8" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8;">
+            <h2 class="mb-4" style="color:var(--text-primary)">How to Reorder PDF Pages</h2>
+            <p class="mb-4">Have you ever scanned a large document only to realize some pages are out of order? The FreeToolKit Reorder PDF tool makes it incredibly simple to organize your document without needing expensive desktop software.</p>
+            <ol style="margin-left: 1.5rem;" class="mb-6">
+                <li class="mb-2"><strong>Upload your PDF:</strong> Drag and drop your document into the upload zone. Our application will immediately generate a thumbnail for every page.</li>
+                <li class="mb-2"><strong>Drag and Drop:</strong> Click and hold any page thumbnail, then drag it to its correct position. You can also delete unwanted pages using the small 'X' button on each thumbnail.</li>
+                <li class="mb-2"><strong>Save and Download:</strong> Once everything is in right order, click the Save button. We will generate the reorganized PDF directly on your device instantly.</li>
+            </ol>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                <h2 class="mb-4" style="color:var(--text-primary)">Related PDF Tools</h2>
+                <ul style="margin-left: 1.5rem;" class="mb-6">
+                    <li class="mb-2"><a href="/tools/merge-pdf.html">Merge PDF</a> - Combine multiple PDFs into one document quickly.</li>
+                    <li class="mb-2"><a href="/tools/split-pdf.html">Split PDF</a> - Extract specific pages or divide a PDF easily.</li>
+                    <li class="mb-2"><a href="/tools/compress-pdf.html">Compress PDF</a> - Reduce PDF size for faster sharing and storage.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="/js/components/navbar.js"></script>
+    <script src="/js/components/footer.js"></script>
+    <script src="/js/main.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="/js/pdf-tools.js"></script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compressor Online Free | Reduce File Size | FreeToolKit</title>
+    <meta name="description" content="Compress JPG, PNG, and WebP images online for free. Reduce image file sizes efficiently directly in your browser without quality loss.">
+    
+    <meta property="og:title" content="Image Compressor Online Free">
+    <meta property="og:description" content="Reduce image file sizes instantly in your browser without uploading to a server.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freetoolkit.com/tools/image-compressor.html">
+    <link rel="canonical" href="https://freetoolkit.com/tools/image-compressor.html">
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Image Compressor Online Free",
+      "url": "https://freetoolkit.com/tools/image-compressor.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "description": "Compress and optimize images for the web securely on your device."
+    }
+    </script>
+
+    <style>
+        .compression-workspace {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) {
+            .preview-container { grid-template-columns: 1fr; }
+        }
+        .preview-box {
+            background: rgba(79, 70, 229, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+        }
+        .preview-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: var(--shadow-sm);
+        }
+        .quality-slider-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary-color);
+        }
+        .size-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: var(--border-color);
+            margin-top: 1rem;
+        }
+        .size-badge.success { background: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+        .size-badge.warning { background: rgba(239, 68, 68, 0.1); color: var(--error-color); }
+    </style>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://freetoolkit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Tools",
+          "item": "https://freetoolkit.com/image-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Image Compressor",
+          "item": "https://freetoolkit.com/tools/image-compressor.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container mt-8">
+        <div class="breadcrumb mb-6">
+            <a href="/">Home</a> <span>></span> <a href="/image-tools.html">Image Tools</a> <span>></span> <span>Image Compressor</span>
+        </div>
+
+        <div class="text-center mb-8">
+            <h1 class="mb-4">Image Compressor Online</h1>
+            <p class="hero-subtitle">Optimize your images efficiently. Reduce file sizes without losing quality, securely in your browser.</p>
+        </div>
+
+        <div class="compression-workspace">
+            <div id="dropZone" class="drop-zone mb-6">
+                <div class="tool-icon" style="font-size: 3rem; margin-bottom: 1rem;">🖼️</div>
+                <h3 class="mb-2">Choose an Image</h3>
+                <p>or drag and drop a JPG, PNG, or WebP here</p>
+                <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp" style="display: none;">
+                <button class="btn btn-primary mt-4" onclick="document.getElementById('fileInput').click()">Select Image</button>
+            </div>
+
+            <div id="workspaceEditor" style="display: none;">
+                
+                <div class="quality-slider-container">
+                    <div class="slider-label">
+                        <span>Compression Quality</span>
+                        <span id="qualityValue">80%</span>
+                    </div>
+                    <input type="range" id="qualitySlider" min="1" max="100" value="80">
+                    <p class="mt-2" style="font-size: 0.85rem; color: var(--text-secondary);">Lower quality creates smaller files but may introduce visual artifacts.</p>
+                </div>
+
+                <div class="preview-container">
+                    <div class="preview-box">
+                        <h4 class="mb-4">Original Image</h4>
+                        <img id="originalPreview" class="preview-img">
+                        <div class="size-badge" id="originalSize">0 KB</div>
+                    </div>
+                    
+                    <div class="preview-box">
+                        <h4 class="mb-4">Compressed Result</h4>
+                        <img id="compressedPreview" class="preview-img">
+                        <div class="size-badge success" id="compressedSize">0 KB</div>
+                        <div id="savingsBadge" style="margin-top:0.5rem; font-size:0.85rem; color:var(--text-secondary)"></div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8 pt-6" style="border-top: 1px solid var(--border-color)">
+                    <a id="downloadBtn" class="btn btn-primary" style="padding: 1rem 3rem; font-size:1.1rem; background-color: var(--success-color);">Download Compressed Image</a>
+                    <button class="btn mt-4" onclick="location.reload()" style="display:block; margin: 1rem auto; background: transparent; border: 1px solid var(--border-color)">Compress Another File</button>
+                </div>
+            </div>
+            
+            <div class="loader-container" id="global-loader">
+                <div class="spinner"></div>
+                <p id="loader-text" style="color:var(--text-secondary)">Processing...</p>
+            </div>
+        </div>
+
+        <!-- SEO Article Content -->
+        <article class="mt-8" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8;">
+            <h2 class="mb-4" style="color:var(--text-primary)">How to Compress Images</h2>
+            <p class="mb-4">Reducing the size of high-resolution photographs, screenshots, or graphics is extremely important for digital storage and web performance. To compress your image instantly:</p>
+            <ol style="margin-left: 1.5rem;" class="mb-6">
+                <li class="mb-2"><strong>Upload the Image:</strong> Choose a valid JPG, PNG, or WebP file using the drag-and-drop zone above.</li>
+                <li class="mb-2"><strong>Adjust the Slider:</strong> By default, we apply an optimal 80% quality compression ratio. Use the slider to increase or decrease the intensity of the compression algorithm.</li>
+                <li class="mb-2"><strong>Download Result:</strong> Once you are satisfied with the real-time preview and exact file size savings, click the Download button to save the new lightweight image to your device.</li>
+            </ol>
+
+            <h2 class="mb-4" style="color:var(--text-primary)">Why Compress Images Locally?</h2>
+            <p class="mb-4">Most image compressors require you to upload your photography to an external server. This raises major privacy issues, and it requires tremendous patience if you are trying to optimize massive raw camera outputs on a slow connection. FreeToolKit's compressor solves this by rendering the file internally directly onto a secure HTML5 Canvas element managed by your web browser's engine.</p>
+            <ul style="margin-left: 1.5rem;" class="mb-6">
+                <li class="mb-2"><strong>Better Privacy:</strong> We physically cannot view, store, or sell your personal photos.</li>
+                <li class="mb-2"><strong>Zero Upload Time:</strong> Because there is no API call being made, your data shrinks down immediately in real-time as you tweak the slider.</li>
+                <li class="mb-2"><strong>Improves SEO & Web Vitals:</strong> If you are a web developer, optimizing images prevents slow layout shifting and drastically improves Core Web Vitals rankings.</li>
+            </ul>
+
+            
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                <h2 class="mb-4" style="color:var(--text-primary)">Related Image Tools</h2>
+                <ul style="margin-left: 1.5rem;" class="mb-6">
+                    <li class="mb-2"><a href="/tools/image-compressor.html">Image Compressor</a> - Reduce image file size without losing quality.</li>
+                    <li class="mb-2"><a href="/tools/image-resizer.html">Image Resizer</a> - Change image dimensions with custom width and height.</li>
+                    <li class="mb-2"><a href="/tools/png-to-jpg.html">PNG to JPG Converter</a> - Quickly convert transparent PNGs to flat JPGs.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="/js/components/navbar.js"></script>
+    <script src="/js/components/footer.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/image-tools.js"></script>
+</body>
+</html>

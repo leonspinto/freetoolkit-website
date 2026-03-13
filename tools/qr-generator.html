@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator Online Free | FreeToolKit</title>
+    <meta name="description" content="Generate high-resolution QR codes from URLs, Text, or Data securely in your browser. Download as PNG directly.">
+    
+    <meta property="og:title" content="QR Code Generator Online Form">
+    <meta property="og:description" content="Convert any text or URL into a scannable QR Code instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freetoolkit.com/tools/qr-generator.html">
+    <link rel="canonical" href="https://freetoolkit.com/tools/qr-generator.html">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "QR Code Generator Online",
+      "url": "https://freetoolkit.com/tools/qr-generator.html",
+      "applicationCategory": "UtilitiesApplication"
+    }
+    </script>
+    
+    <!-- QRCode.js Library CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://freetoolkit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Utility Tools",
+          "item": "https://freetoolkit.com/utility-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "QR Code Generator",
+          "item": "https://freetoolkit.com/tools/qr-generator.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container mt-8">
+        <div class="breadcrumb mb-6">
+            <a href="/">Home</a> <span>></span> <a href="/utility-tools.html">Utility Tools</a> <span>></span> <span>QR Generator</span>
+        </div>
+
+        <div class="text-center mb-8">
+            <h1 class="mb-4">QR Code Generator</h1>
+            <p class="hero-subtitle">Create highly-scannable QR Codes from Links, Text, or Wi-Fi configurations natively.</p>
+        </div>
+
+        <div style="background:var(--bg-secondary); padding: 2.5rem; border-radius:var(--border-radius); box-shadow:var(--shadow-md); border:1px solid var(--border-color); max-width:800px; margin:0 auto 3rem; display:grid; grid-template-columns:1fr 300px; gap:2rem;">
+            
+            <!-- Left Side: Input -->
+            <div style="display:flex; flex-direction:column; gap:1.5rem">
+                <div>
+                    <label style="display:block; font-weight:600; margin-bottom:0.5rem">Enter Website URL or Text</label>
+                    <textarea id="qrInput" rows="4" style="width:100%; padding: 1rem; border:1px solid var(--border-color); border-radius:6px; resize:vertical; font-family:inherit" placeholder="e.g. https://freetoolkit.com/"></textarea>
+                </div>
+                
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem">
+                    <div>
+                        <label style="display:block; font-weight:600; margin-bottom:0.5rem">Size</label>
+                        <select id="qrSize" style="width:100%; padding:0.75rem; border:1px solid var(--border-color); border-radius:6px">
+                            <option value="128">Small (128x128)</option>
+                            <option value="256" selected>Medium (256x256)</option>
+                            <option value="512">Large (512x512)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="generateQrBtn" class="btn btn-primary" style="padding:1rem; font-size:1.1rem; margin-top:1rem">Generate QR Code</button>
+            </div>
+
+            <!-- Right Side: Display -->
+            <div style="background:var(--bg-color); border-radius:var(--border-radius); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; border:1px solid var(--border-color)">
+                <div id="qrCanvasContainer" style="background:white; padding:1rem; border-radius:8px; box-shadow:var(--shadow-sm); min-height:200px; min-width:200px; display:flex; align-items:center; justify-content:center">
+                    <span style="color:var(--text-secondary); font-size:0.9rem" id="qrPlaceholder">Output goes here</span>
+                </div>
+                
+                <button id="downloadQrBtn" class="btn btn-primary mt-6" style="background-color:var(--success-color); display:none; width:100%">Download PNG</button>
+            </div>
+        </div>
+
+        <!-- SEO Article Content -->
+        <article class="mt-8 mb-8" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8;">
+            <h2 class="mb-4" style="color:var(--text-primary)">Free QR Code Generator</h2>
+            <p class="mb-4">A QR code (Quick Response code) is a two-dimensional barcode capable of storing massive amounts of data such as URLs, raw text strings, or digital business cards. It is an industry standard used globally by major smartphones.</p>
+            <p class="mb-4">By utilizing this HTML5 Canvas powered QR Generator, the encoding engine parses your raw characters and renders the unique barcode square perfectly locally in your web browser. No external API is queried, guaranteeing that the links you convert remain entirely anonymous and private.</p>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                
+            </section>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                <h2 class="mb-4" style="color:var(--text-primary)">Related Utility Tools</h2>
+                <ul style="margin-left: 1.5rem;" class="mb-6">
+                    <li class="mb-2"><a href="/tools/password-generator.html">Password Generator</a> - Create strong, secure, and random passwords.</li>
+                    <li class="mb-2"><a href="/tools/word-counter.html">Word Counter</a> - Instantly count words, characters, and sentences.</li>
+                    <li class="mb-2"><a href="/tools/qr-generator.html">QR Code Generator</a> - Generate QR codes for links, text, and more.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="/js/components/navbar.js"></script>
+    <script src="/js/components/footer.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/utility-tools.js"></script>
+</body>
+</html>

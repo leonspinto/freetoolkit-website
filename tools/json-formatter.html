@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter Online Free | FreeToolKit</title>
+    <meta name="description" content="Format, beautify, and validate JSON data instantly in your browser. Free online developer tool with syntax highlighting and instant validation.">
+    
+    <meta property="og:title" content="JSON Formatter Online Free | FreeToolKit">
+    <meta property="og:description" content="Format, beautify, and validate JSON data instantly in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freetoolkit.com/tools/json-formatter.html">
+    <link rel="canonical" href="https://freetoolkit.com/tools/json-formatter.html">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .json-workspace {
+            background: rgba(79, 70, 229, 0.03);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+        .json-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .json-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .editor-col {
+            display: flex;
+            flex-direction: column;
+        }
+        .code-area {
+            width: 100%;
+            height: 500px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            resize: vertical;
+            background: #fff;
+            color: #333;
+        }
+        .code-area.error {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        .output-area {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .status-badge.valid {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .status-badge.invalid {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        /* Syntax highlighting simple overrides */
+        .json-key { color: #9cdcfe; }
+        .json-string { color: #ce9178; }
+        .json-number { color: #b5cea8; }
+        .json-boolean { color: #569cd6; }
+        .json-null { color: #569cd6; }
+    </style>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://freetoolkit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Utility Tools",
+          "item": "https://freetoolkit.com/utility-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "JSON Formatter",
+          "item": "https://freetoolkit.com/tools/json-formatter.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="container mt-8">
+        <div class="text-center mb-8">
+            <h1 class="mb-4">JSON Formatter & Validator</h1>
+            <p class="hero-subtitle">Beautify, format, fold, and analyze JavaScript Object Notation.</p>
+        </div>
+
+        <div class="json-workspace">
+            <div class="toolbar mb-4">
+                <div style="display:flex; gap:1rem; align-items:center;">
+                    <button id="formatBtn" class="btn btn-primary" style="padding: 0.5rem 1rem;">Format / Beautify</button>
+                    <button id="minifyBtn" class="btn" style="padding: 0.5rem 1rem; border: 1px solid var(--border-color); background: #fff;">Minify</button>
+                    <button id="clearBtn" class="btn" style="padding: 0.5rem 1rem; border: 1px solid var(--border-color); background: #fff;">Clear</button>
+                </div>
+                <div>
+                    <span id="validationStatus" class="status-badge">Waiting for input...</span>
+                </div>
+            </div>
+
+            <div class="json-container">
+                <div class="editor-col">
+                    <label style="font-weight: 500; margin-bottom: 0.5rem;">Input JSON</label>
+                    <textarea id="jsonInput" class="code-area" placeholder="Paste your raw or minified JSON here..."></textarea>
+                </div>
+                
+                <div class="editor-col">
+                    <div style="display: flex; justify-content: space-between; align-items:flex-end;">
+                        <label style="font-weight: 500; margin-bottom: 0.5rem;">Formatted Output</label>
+                        <button id="copyBtn" class="btn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem; margin-bottom: 0.5rem;">Copy to Clipboard</button>
+                    </div>
+                    <div id="jsonOutput" class="code-area output-area"></div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- SEO Article Content -->
+        <article class="mt-8 mb-8" style="max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8;">
+            <h2 class="mb-4" style="color:var(--text-primary)">What is JSON Formatting?</h2>
+            <p class="mb-4">JavaScript Object Notation (JSON) is the universal standard for passing payload state between APIs, Web Applications, and Databases. However, raw JSON generated by servers is often "minified"—meaning all white space, returns, and tabs are stripped to save bandwidth.</p>
+            <p class="mb-4">Our free online <strong>JSON Formatter</strong> instantly restructures minified payloads into clean, human-readable hierarchy trees. It also continuously validates the syntax structure alerting you to missing commas, unclosed brackets, or improper string quoting.</p>
+            <p>Unlike other formatter websites, your sensitive API payloads are analyzed completely internally within your local browser, strictly mitigating the accidental leakage of private tokens or PII to external servers.</p>
+        
+            <section class="related-tools mt-8 pt-6" style="border-top: 1px solid var(--border-color);">
+                <h2 class="mb-4" style="color:var(--text-primary)">Related Utility Tools</h2>
+                <ul style="margin-left: 1.5rem;" class="mb-6">
+                    <li class="mb-2"><a href="/tools/password-generator.html">Password Generator</a> - Create strong, secure, and random passwords.</li>
+                    <li class="mb-2"><a href="/tools/word-counter.html">Word Counter</a> - Instantly count words, characters, and sentences.</li>
+                    <li class="mb-2"><a href="/tools/qr-generator.html">QR Code Generator</a> - Generate QR codes for links, text, and more.</li>
+                </ul>
+            </section>
+        </article>
+
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="/js/components/navbar.js"></script>
+    <script src="/js/components/footer.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/utility-tools.js"></script>
+</body>
+</html>
